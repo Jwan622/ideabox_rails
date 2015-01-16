@@ -3,6 +3,6 @@ class Ability
 
   def initialize(user)
     user ||= User.new
-    can :manage, User, id: user.id
+    can :read, User, id: user.id   #can read any User object if the current user id is the same.
   end
 end

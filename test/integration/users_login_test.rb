@@ -33,14 +33,24 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
   end
 
   test "logged in user sees user's ideas" do
-    ApplicationController.any_instance.stubs(:current_user).returns(user)
+    ApplicationController.any_instance.stubs(:current_user).returns(user) #when you do a current user stub, you actually need a current_user method
     visit user_path(user)
     within("#banner") do
       assert page.has_content?("Welcome, Chris")
     end
   end
 
-  
+  # test "logged in user cannot see protected user ideas" do
+  #
+  # end
+
+  test "user can logout" do
+    ApplicationController.any_instance.stubs(:current_user).returns(user)
+    visit user_path(user)   #so it seems like we just visit directly without any authentication.
+    click_link_or_button "Logout"
+    assert page.has_content?("You successfully logged out")
+  end
+
 
 
 end
