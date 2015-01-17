@@ -9,7 +9,12 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     visit login_path
   end
 
+  def teardown
+    @user.destroy!
+  end
+
   test "user sees login page at login path" do
+    skip
     assert page.has_content?("Please Login")
   end
 
@@ -49,6 +54,13 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     visit user_path(user)   #so it seems like we just visit directly without any authentication.
     click_link_or_button "Logout"
     assert page.has_content?("You successfully logged out")
+  end
+
+  test "user cannot look at another user's show page" do
+    ApplicationController.any_instance.stubs(:current_user).returns(user)
+    protected_user = User.create(username: "Greg", password_digest: "narajka")
+    visit user_path(protected_user)
+    assert page.has_content?("Nice try asshole")
   end
 
 

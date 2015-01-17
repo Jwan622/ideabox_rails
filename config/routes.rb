@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'ideas#index'
   resources :users
 
   get '/login', to: 'sessions#new'
