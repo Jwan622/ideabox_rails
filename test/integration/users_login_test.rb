@@ -2,10 +2,13 @@ require 'test_helper'
 
 class UsersLoginTest < ActionDispatch::IntegrationTest
   include Capybara::DSL
-  attr_reader :user
+  attr_reader :user, :category
 
   def setup
     @user = User.create(username: "Chris", password: "Lauren")
+    @category = Category.create(name: "meals")
+    user.ideas.create(name: "lunch", category_id: category.id)
+    user.ideas.create(name: "dinner", category_id: category.id)
     visit login_path
   end
 
@@ -62,6 +65,15 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     visit user_path(protected_user)
     assert page.has_content?("Nice try asshole")
   end
+
+  test "user logs in and sees ideas on his show page" do
+    ApplicationController.any_instance.stubs(:current_user).returns(user)
+    visit user_path(user)
+    assert page.has_content?("lunch")
+
+  end
+
+
 
 
 
