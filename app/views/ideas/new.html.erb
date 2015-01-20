@@ -1,0 +1,9 @@
+<div id="new">
+  <%= form_for :ideas, url: user_ideas_path do |f| %>
+
+    <%= f.label :idea_name %>
+    <%= f.text_field :name %>
+
+    <%= f.submit %>
+  <% end %>
+</div>

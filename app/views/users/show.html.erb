@@ -1,4 +1,12 @@
 <div id="banner">
   Welcome, <%= @user.username %>
 
+  <ul>
+    <% @user.ideas.each do |idea| %>
+    <%= idea.name %> <br><br>
+    <% end %>
+  </ul>
+
+  <%= link_to "Create Idea", new_user_idea_path(@user) %> <br><br>
+  <%= link_to "Logout", "/logout", method: :delete %>
 </div>
